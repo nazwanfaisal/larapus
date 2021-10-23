@@ -20,3 +20,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+//route Tester admin template
+route::get('tes-admin', function (){
+    return view('layouts.admin');
+});

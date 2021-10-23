@@ -78,6 +78,12 @@
         <main class="py-4">
             @yield('content')
         </main>
+        <footer class ="fixed-bottom">
+            <center>
+                copyright larapus Made With Nazwan Faisal
+                - {{date('Y')}}
+            </center>
+        </footer>
     </div>
 </body>
 </html>
