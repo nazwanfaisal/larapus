@@ -24,7 +24,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 //route Tester admin template
 //admin Route
 
-Route::group(['prefix' => 'admin', 'middleware' => ['auth']],function(){
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']],function(){
     Route::get('/', function(){
       return view('admin.index');
     });
