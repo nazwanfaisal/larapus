@@ -1,10 +1,7 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Models\Author;
 use Illuminate\Http\Request;
-
 class AuthorController extends Controller
 {
     /**
@@ -15,71 +12,94 @@ class AuthorController extends Controller
     public function index()
     {
         //
+        $author = Author::all();
+        return view('admin.author.index', compact('author'));
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+@@ -24,7 +25,7 @@ public function index()
      */
     public function create()
     {
         //
+        return view('admin.author.create');
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+@@ -35,7 +36,15 @@ public function create()
      */
     public function store(Request $request)
     {
         //
+        // validasi data
+        $validated = $request->validate([
+            'name' => 'required',
+        ]);
+
+        $author = new Author;
+        $author->name = $request->name;
+        $author->save();
+        return redirect()->route('author.index');
     }
 
     /**
-     * Display the specified resource.
-     *
+@@ -44,9 +53,10 @@ public function store(Request $request)
      * @param  \App\Models\Author  $author
      * @return \Illuminate\Http\Response
      */
-    public function show(Author $author)
+
+    public function show($id)
     {
         //
+        $author = Author::findOrFail($id);
+        return view('admin.author.show', compact('author'));
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
+@@ -55,9 +65,10 @@ public function show(Author $author)
      * @param  \App\Models\Author  $author
      * @return \Illuminate\Http\Response
      */
-    public function edit(Author $author)
+
+    public function edit($id)
     {
         //
+        $author = Author::findOrFail($id);
+        return view('admin.author.edit', compact('author'));
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
+@@ -67,9 +78,17 @@ public function edit(Author $author)
      * @param  \App\Models\Author  $author
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Author $author)
+
+    public function update(Request $request, $id)
     {
         //
+        // validasi data
+        $validated = $request->validate([
+            'name' => 'required',
+        ]);
+
+        $author = Author::findOrFail($id);
+        $author->name = $request->name;
+        $author->save();
+        return redirect()->route('author.index');
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Author  $author
+@@ -78,8 +97,11 @@ public function update(Request $request, Author $author)
+     @param  \App\Models\Author  $author
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Author $author)
+
+    public function destroy($id)
     {
         //
+        $author = Author::findOrFail($id);
+        $author->delete();
+        return redirect()->route('author.index');
+
     }
 }
